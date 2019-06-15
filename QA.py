@@ -15,7 +15,7 @@ with open("wiki_seg.txt", encoding='utf-8')as f:
 # 設定output
 outputfile = open('F74056166.csv', 'w', encoding='utf-8')
 # 讀入題目 input.txt
-with open("input.txt", encoding='utf-8')as inputline:
+with open("q150.txt", encoding='utf-8')as inputline:
     for line in inputline:
         line = line.strip('\n')
         line = Converter('zh-hant').convert(line)   # 讀入字串轉為正體中文
@@ -61,8 +61,8 @@ with open("input.txt", encoding='utf-8')as inputline:
             score = model_w2v.n_similarity(word, candidate)
             resultInfo = {'id': index, "score": score, "text": " ".join(candidate)}
             resultInfo['text'] = resultInfo['text'].replace(" ", "")
-            # 如果 score > 0.7 則確認這個字串有沒有在選項裡，如果有，輸出答案並結束比對
-            if score > 0.7:
+            # 如果 score > 0.8 則確認這個字串有沒有在選項裡，如果有，輸出答案並結束比對
+            if score > 0.8:
                 for j in range(len(eachans)):
                     if eachans[j] in resultInfo['text']:
                         outputfile.write(str(j+1))
@@ -77,7 +77,7 @@ with open("input.txt", encoding='utf-8')as inputline:
                 break
         # 排序儲存的答案和分數
         res.sort(key=lambda x: x['score'], reverse=True)
-        # 如果在 > 0.7 的結果中沒有找到答案的話，則尋找最高分的選項
+        # 如果在 > 0.8 的結果中沒有找到答案的話，則尋找最高分的選項
         if findflag is False:
             for i in range(len(res)):
                 for j in range(len(eachans)):
