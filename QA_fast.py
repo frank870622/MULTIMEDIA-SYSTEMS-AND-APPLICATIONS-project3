@@ -11,7 +11,7 @@ model_w2v = word2vec.Word2Vec.load(model)
 # 設定 output
 outputfile = open('F74056166.csv', 'w', encoding='utf-8')
 # 讀入題目
-with open("q500.txt", encoding='utf-8')as inputline:
+with open("project_question_file.txt", encoding='utf-8')as inputline:
     for line in inputline:
         line = line.strip('\n')                     # 去除換行符號
         line = Converter('zh-hant').convert(line)   # 讀入字串轉為正體中文
@@ -49,6 +49,9 @@ with open("q500.txt", encoding='utf-8')as inputline:
         score = []  #四個選項的分數儲存在這裡
         
         # 將四個選項與題目比較相似度
+        for k in eachans:
+            if len(k) == 0:
+                k.append('null')
         score.append(model_w2v.n_similarity(word, eachans[0]))
         score.append(model_w2v.n_similarity(word, eachans[1]))
         score.append(model_w2v.n_similarity(word, eachans[2]))
